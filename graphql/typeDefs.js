@@ -19,6 +19,7 @@ module.exports = gql`
     }
 
     type Place {
+        _id: ID
         name: String
         location: Location
         city: City
@@ -35,6 +36,7 @@ module.exports = gql`
     }
 
     type Reserve {
+        _id: ID
         place: Place
         owner: User
         startDate: Int
@@ -44,6 +46,7 @@ module.exports = gql`
     }
 
     type Review {
+        _id: ID!
         owner: User
         place: Place
         rating: Int
@@ -68,14 +71,50 @@ module.exports = gql`
         completed
     }
 
+    
+    input CreatePlaceInput {
+        name: String
+        location: LocationInput
+        city: ID
+        address: String
+        details: String
+        roomsNumber: Int
+        mainImage: String
+        secondaryImages: [String]
+        price: Float
+    }
+
+    input UpdatePlaceInput {
+        _id: ID!
+        name: String
+        location: LocationInput
+        city: ID
+        address: String
+        details: String
+        roomsNumber: Int
+        mainImage: String
+        secondaryImages: [String]
+        price: Float
+    }
+    
+    input LocationInput {
+        lat: Float
+        long: Float
+    }
+
     type Query {
         me: User
+        getPlace(id: ID!): Place
+        getPlaces(city: ID!, page: Int, limit: Int, sort: String, order: Int): [Place]
     }
 
     type Mutation {
         registerUser(name: String!, email: String!, password: String!, passwordConfirm: String!): UserWithToken
         loginUser(email: String, password: String, googleId: String): UserWithToken
         updateUser(name: String, phone: String, ): User
+        createPlace(input: CreatePlaceInput): Place
+        updatePlace(input: UpdatePlaceInput): Place
+        deletePlace(id: ID!): ID!
     }
 
 `

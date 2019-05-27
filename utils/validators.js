@@ -2,6 +2,8 @@ const {
     isEmpty,
     isEmail,
     isLength,
+    isInt,
+    isFloat,
     equals,
     normalizeEmail,
 } = require('validator');
@@ -63,6 +65,35 @@ module.exports = {
             validationErrors.push({
                 message: `Wrong password`,
                 inputField: `password`,
+            });
+        }
+        return validationErrors;
+    },
+    createPlaceValidator: async data => {
+        let validationErrors = [];
+        const {name, address, city, price } = data;
+        if (isEmpty(name.trim())) {
+            validationErrors.push({
+                message: `Name is required`,
+                inputField: `name`,
+            });
+        }
+        if (isEmpty(address.trim())) {
+            validationErrors.push({
+                message: `Address is required`,
+                inputField: `address`,
+            });
+        }
+        if (isEmpty(city)) {
+            validationErrors.push({
+                message: `City is required`,
+                inputField: `city`,
+            });
+        }
+        if (!isFloat(String(price))) {
+            validationErrors.push({
+                message: `Price is required`,
+                inputField: `price`,
             });
         }
         return validationErrors;
