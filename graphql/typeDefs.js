@@ -102,10 +102,26 @@ module.exports = gql`
         long: Float
     }
 
+    input CreateReserveInput {
+        placeId: ID!
+        startDate: Int!
+        endDate: Int!
+    }
+
+    input ReviewInput {
+        reviewId: ID
+        placeId: ID!
+        grade: Int
+        text: Sring!
+    }
+
     type Query {
         me: User
         getPlace(id: ID!): Place
         getPlaces(city: ID!, page: Int, limit: Int, sort: String, order: Int): [Place]
+        getUserReserves(page: Int, limit: Int, sort: String, order: Int): [Reserve]
+        getPlaceReserves(placeId: ID!, page: Int, limit: Int, sort: String, order: Int): [Reserves]
+        getCities: [City]
     }
 
     type Mutation {
@@ -115,6 +131,10 @@ module.exports = gql`
         createPlace(input: CreatePlaceInput): Place
         updatePlace(input: UpdatePlaceInput): Place
         deletePlace(id: ID!): ID!
+        createReserve(input: CreateReserveInput): Reserve
+        updateReserveStatus(reserveId: ID!, status: String): Reserve
+        createReview(input: ReviewInput): Review
+        updateReview(input: ReviewInput): Review
     }
 
 `

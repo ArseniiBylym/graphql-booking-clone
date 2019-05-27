@@ -1,6 +1,8 @@
 const {AuthenticationError} = require('apollo-server-express');
 const User = require('../../models/User.model');
 const Place = require('../../models/Place.model');
+const Reserve = require('../../models/Reserve.model');
+const City = require('../../models/City.model');
 
 module.exports = {
     me: async (parent, args, ctx) => {
@@ -32,4 +34,34 @@ module.exports = {
             .exec();
         return places;
     },
+    getUserReserves: async(parent, args, ctx) => {
+        const {page, limit, sort, order} = args;
+        if(!ctx.currentUser) {
+            throw new AuthenticationError('Permission denied');
+        }
+        const reserves = await Reserve.find({owner: ctx.currentUser._id})
+            .populate('place')
+            .populate('owner')
+            .exec();
+        return reserves;
+    },
+    getPlaceReserves: async(parent, args, ctx) => {
+        const {placeId, page, limit, sort, order} = args;
+        if(!ctx.currentUser) {
+            throw new AuthenticationError('Permission denied');
+        }
+        const place = await Place.findById(placeId).exec();
+        if (place.owner !== ctx.currentUser._id) {
+            throw new AuthenticationError('Permission denied');
+        }
+        const reserves = await Reserve.find({place: placeId})
+            .populate('place')
+            .populate('owner')
+            .exec();
+        return reserves;
+    },
+    getCities: async() => {
+        const cities = await City.find().exec();
+        return cities;
+    }
 }

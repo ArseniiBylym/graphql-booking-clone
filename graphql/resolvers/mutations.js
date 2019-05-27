@@ -94,5 +94,68 @@ module.exports = {
         await Place.findByIdAndDelete(id);
         return id;
     },
-   
+    createReserve: async(parent, {input}, ctx) => {
+        const {placeId, statDate, endDate} = input;
+        if (!ctx.currentUser) {
+            throw new AuthenticationError('User is not authenticated');
+        }
+        const place = await Place.findById(placeId).exec();
+        if (!place) {
+            throw new UserInputError('Place with the id is absent');
+        }
+        const totalDays = (+endDate - +startDate) / (1000 * 60 * 60 * 24);
+        const totalPrice = (+place.price * totalDays).toFixed(2);
+        const reserve = await new Reserve({
+            ...input,
+            owner: ctx.currentUser._id,
+            totalPrice,
+        }).save();
+        await Place.findByIdAndUpdate(placeId, {$push: {reserves: reserve._id}});
+        await Reserve.populate(reserve, 'place')
+        await Reserve.populate(reserve, 'owner')
+        return reserve;
+    },
+    updateReserveStatus: async(parent, args, ctx) => {
+        const {reserveId, status} = args;
+        if (!ctx.currentUser) {
+            throw new AuthenticationError('User is not authenticated');
+        }
+        const reserve = await Reserve.findById(reserveId).populate('place').populate('owner').exec();
+        if (reserve.place.owner !== ctx.currentUser._id) {
+            throw new ForbiddenError('User has no permission to update this reserve status');
+        }
+        reserve.status = status; 
+        await reserve.save();
+        return reserve;
+    },
+    createReview: async(parent, args, ctx) => {
+        if (!ctx.currentUser) {
+            throw new AuthenticationError('User is not authenticated');
+        }
+        const {placeId, grade, text} = args;
+        const review = await new Review({
+            ...args,
+            owner: ctx.currentUser._id,
+            date: Date.now(),
+        }).save();
+        await Place.findByIdAndUpdate(placeId, {$push: {reviews: review._id}});
+        return review;
+    },
+    updateReview: async(parent, args, ctx) => {
+        if (!ctx.currentUser) {
+            throw new AuthenticationError('User is not authenticated');
+        }
+        const {reviewId, grade, text} = args;
+        const review = await Review.findById(reviewId).exec();
+        if (review.owner !== ctx.currentUser._id) {
+            throw new ForbiddenError('User has no permission to update this review');
+        }
+        review.grade = grade || review.grade;
+        review.text = text || review.text;
+        review.date = Date.now();
+        await review.save();
+        await Review.populate(review, 'owner');
+        await Review.populate(review, 'place');
+        return review;
+    },
 };
