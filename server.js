@@ -7,14 +7,15 @@ require('dotenv').config();
 
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers.js')
-const {getUserFromCookieToken} = require('./utils/helpers')
+const {getUserFromAuthHeader} = require('./utils/helpers')
 
 const apollo = new ApolloServer({
     typeDefs,
     resolvers,
     context: async({req}) => {
-        const currentUser = getUserFromCookieToken(req);
-        return {currentUser}
+        const currentUser = getUserFromAuthHeader(req);
+        // console.log('Current user is :', currentUser)
+        return {...req, currentUser}
     }
 })
 
@@ -34,7 +35,7 @@ if (process.env.NODE_ENV === 'production') {
 apollo.applyMiddleware({app});
 
 mongoose
-    .connect(process.env.MONGO_DB_URI, {useNewUrlParser: true})
+    .connect(process.env.MONGO_DB_URI, {useNewUrlParser: true, useFindAndModify: false})
     .then(() => {
         app.listen(process.env.PORT || 5000);
         console.log(`Server listening on port ${process.env.PORT || 5000}`)
