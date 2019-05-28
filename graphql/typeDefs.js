@@ -112,7 +112,7 @@ module.exports = gql`
         reviewId: ID
         placeId: ID!
         grade: Int
-        text: Sring!
+        text: String!
     }
 
     type Query {
@@ -120,7 +120,7 @@ module.exports = gql`
         getPlace(id: ID!): Place
         getPlaces(city: ID!, page: Int, limit: Int, sort: String, order: Int): [Place]
         getUserReserves(page: Int, limit: Int, sort: String, order: Int): [Reserve]
-        getPlaceReserves(placeId: ID!, page: Int, limit: Int, sort: String, order: Int): [Reserves]
+        getPlaceReserves(placeId: ID!, page: Int, limit: Int, sort: String, order: Int): [Reserve]
         getCities: [City]
     }
 
