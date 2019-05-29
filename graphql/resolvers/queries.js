@@ -10,6 +10,8 @@ module.exports = {
             throw new AuthenticationError('Permission denied');
         }
         const user = await User.findById(ctx.currentUser._id).exec();
+        console.log(ctx.currentUser)
+        console.log(user)
         return user
     },
     getPlace: async (parent, {id}, ctx) => {

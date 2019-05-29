@@ -7,6 +7,7 @@ import {MdClose, MdAccountCircle, MdPermIdentity, MdEventNote, MdExitToApp, MdIn
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
+import {LOGOUT} from 'store/actionTypes'
 
 const authUserActions = [
     {icon: <MdPermIdentity />, name: 'Profile', path: '/profile'}, 
@@ -19,13 +20,17 @@ const unAuthUserActions = [
 ]
 
 const UserMenuButton = props => {
-    const {state} = useContext(Context);
+    const {state, dispatch} = useContext(Context);
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
     const menuItemClickHandler = path => e => {
         setOpen(false);
-        props.history.push(path)
+        if (path === '/logout') {
+            dispatch({type: LOGOUT})
+        } else {
+            props.history.push(path)
+        }
     }
 
     const getActionsList = () => {

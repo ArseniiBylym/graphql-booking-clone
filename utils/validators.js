@@ -18,33 +18,28 @@ module.exports = {
         const user = await User.findOne({email}).exec();
         if (user) {
             validationErrors.push({
-                message: `User already exists`,
-                inputField: `email`,
+                email: `User already exists`,
             });
             return validationErrors;
         }
         if (isEmpty(name.trim())) {
             validationErrors.push({
-                message: `Name is required`,
-                inputField: `name`,
+                name: `Name is required`,
             });
         }
         if (!isEmail(normalizeEmail(email))) {
             validationErrors.push({
-                message: `Email is required and should be valid email address`,
-                inputField: `email`,
+                email: `Email is required and should be valid email address`,
             });
         }
         if (!isLength(password.trim(), { min: 6 })) {
             validationErrors.push({
-                message: `Password is required and should contains at least 6 characters`,
-                inputField: `password`,
+                password: `Password is required and should contains at least 6 characters`,
             });
         }
         if (!equals(password, passwordConfirm)) {
             validationErrors.push({
-                message: `Password doesn't match`,
-                inputField: `passwordConfirm`,
+                passwordConfirm: `Password doesn't match`,
             });
         }
         return validationErrors;
@@ -55,16 +50,14 @@ module.exports = {
         const user = await User.findOne({email}).exec();
         if (!user) {
             validationErrors.push({
-                message: `Wrong email`,
-                inputField: `email`,
+                email: `Wrong email`,
             });
             return validationErrors;
         }
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch) {
             validationErrors.push({
-                message: `Wrong password`,
-                inputField: `password`,
+                password: `Wrong password`,
             });
         }
         return validationErrors;

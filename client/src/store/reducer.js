@@ -1,19 +1,45 @@
-import {USER_ACTIONS} from './actionTypes';
+import {
+    LOGIN,
+    REGISTER,
+    LOGOUT,
+    INIT_CITIES,
+    SET_CURRENT_CITY,
+} from './actionTypes';
 
-export const UserReducer = (state, {type, payload}) => {
+const reducer = (state, {type, payload}) => {
     switch (type) {
-        case USER_ACTIONS.REGISTER: 
-        case USER_ACTIONS.LOGIN: 
+        case REGISTER: 
+        case LOGIN: 
             return {
+                ...state,
                 isAuth: true,
                 user: payload,
             }
-        case USER_ACTIONS.LOGOUT: 
+        case LOGOUT: 
             return {
+                ...state,
                 isAuth: false,
                 user: null,
             }
+        case INIT_CITIES: 
+            return {
+                ...state,
+                allCities: payload
+            }
+        case SET_CURRENT_CITY: {
+            const {name, _id, location: {lat, long}} = payload;
+            return {
+                ...state,
+                selectedCity: {
+                    name,
+                    _id,
+                    location: {lat, long}
+                }
+            }
+        }
         default: 
             return state
     }
 }
+
+export default reducer;

@@ -17,7 +17,7 @@ module.exports = {
             });
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({
+        const user = await new User({
             ...restUserData,
             password: hashedPassword,
         }).save();

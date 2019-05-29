@@ -55,6 +55,7 @@ module.exports = gql`
     }
 
     type City {
+        _id: ID!
         name: String
         value: Int
         location: Location
@@ -125,7 +126,7 @@ module.exports = gql`
     }
 
     type Mutation {
-        registerUser(name: String!, email: String!, password: String!, passwordConfirm: String!): UserWithToken
+        registerUser(name: String, email: String, password: String, passwordConfirm: String): UserWithToken
         loginUser(email: String, password: String, googleId: String): UserWithToken
         updateUser(name: String, phone: String, ): User
         createPlace(input: CreatePlaceInput): Place

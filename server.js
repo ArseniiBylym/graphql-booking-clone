@@ -13,7 +13,7 @@ const apollo = new ApolloServer({
     typeDefs,
     resolvers,
     context: async({req}) => {
-        const currentUser = getUserFromAuthHeader(req);
+        const currentUser = await getUserFromAuthHeader(req);
         // console.log('Current user is :', currentUser)
         return {...req, currentUser}
     }
