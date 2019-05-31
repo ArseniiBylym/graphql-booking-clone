@@ -4,7 +4,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import {MdPlace} from 'react-icons/md'
 import Typography from '@material-ui/core/Typography';
 
-const Map = ({location, name, address}) => {
+const PlaceMap = ({location, name, address}) => {
     const classes = useStyles();
     const [viewport, setViewport] = useState(null);
     useEffect(() => {
@@ -22,7 +22,7 @@ const Map = ({location, name, address}) => {
                 width="100vw"
                 height="100vh"
                 mapStyle="mapbox://styles/mapbox/streets-v9"
-                mapboxApiAccessToken="pk.eyJ1IjoicmVlZGJhcmdlcmNvZGVzIiwiYSI6ImNqczVodXgzczAwM3E0M3MydzI0OHN0ZzEifQ.0qj4u8RW-Rj6An3WFLXKqA"
+                mapboxApiAccessToken={process.env.REACT_APP_MAPGL_TOKEN}
                 onViewportChange={newViewport => setViewport(newViewport)}
                 {...viewport}
             >
@@ -56,4 +56,4 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default Map;
+export default PlaceMap;

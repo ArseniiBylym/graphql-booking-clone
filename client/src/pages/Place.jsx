@@ -1,19 +1,14 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import { spacing } from '@material-ui/system';
 import Context from 'store/context';
 import client from 'apolloClient';
 import Spinner from 'components/Spinner';
 import {QUERY_PLACE} from 'graphqlTypes/queries';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import StarRating from 'react-star-rating-component';
-import Modal from 'components/Modals/index';
 import MainInfo from 'components/Place/MainInfo';
 import Reviews from 'components/Place/Reviews';
-import Map from 'components/Place/Map';
+import PlaceMap from 'components/Place/PlaceMap';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import {MdInfoOutline, MdMap, MdComment} from 'react-icons/md'
@@ -56,7 +51,7 @@ const Place = props => {
                 <Grid className={classes.grid} container direction="column" >
                     {bottomNav === 'info' && <MainInfo {...place}/>}
                     {bottomNav === 'reviews' && <Reviews reviews={place.reviews} placeId={place._id} pushReview={pushReview} mt="auto"/>}
-                    {bottomNav === 'map' && <Map location={place.location} name={place.name} address={place.address} />}
+                    {bottomNav === 'map' && <PlaceMap location={place.location} name={place.name} address={place.address} />}
                 </Grid>
             </Box>
             <BottomNavigation 

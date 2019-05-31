@@ -57,10 +57,10 @@ const Profile = props => {
                 showLabels
                 className={classes.bottomNav}
             >
-                <BottomNavigationAction label="Places" icon={<MdHome />} />
-                <BottomNavigationAction label="Reviews" icon={<MdComment />} />
+                <BottomNavigationAction classes={{root: classes.navButton, selected: classes.navButtonSelected}} label="Places" icon={<MdHome />} />
+                <BottomNavigationAction classes={{root: classes.navButton, selected: classes.navButtonSelected}} label="Reviews" icon={<MdComment />} />
                 {state.user && state.user._id === user._id && 
-                    <BottomNavigationAction label="Reserves" icon={<MdAssignment />} />
+                    <BottomNavigationAction classes={{root: classes.navButton, selected: classes.navButtonSelected}} label="Reserves" icon={<MdAssignment />} />
                 } 
             </BottomNavigation>
         </Grid>
@@ -72,14 +72,23 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         height: '100%',
     },
-    bottomNav: {
-        width: '100%',
-        marginTop: 'auto'
-    },
     avatar: {
         width: '100px',
         height: '100px',
         margin: '2rem auto',
+    },
+    bottomNav: {
+        width: '100%',
+        backgroundColor: theme.palette.primary.main,
+        padding: theme.spacing(1),
+        marginTop: 'auto'
+    },
+    navButton: {
+        color: 'white',
+        fontSize: '18px',
+    },
+    navButtonSelected: {
+        color: 'black !important'
     }
 }));
 

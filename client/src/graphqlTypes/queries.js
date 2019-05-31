@@ -63,6 +63,17 @@ export const QUERY_PLACES = gql`
     }
 `;
 
+export const QUERY_PLACES_MAP = gql`
+    query($city: ID!){
+        getPlaces(city: $city) {
+            _id
+            name
+            address
+            location{lat long}
+        }
+    }
+`;
+
 export const QUERY_PLACE = gql`
     query($id: ID!){
         getPlace(id: $id) {

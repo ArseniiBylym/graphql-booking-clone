@@ -42,7 +42,6 @@ const Places = (props) => {
     if (!state.selectedCity) {
         console.log('redirect')
         props.history.push('/')
-        // return <Redirect to='/'/>
     }
     if (fetching) {
         return <Spinner />

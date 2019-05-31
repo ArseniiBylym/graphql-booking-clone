@@ -1,23 +1,46 @@
 import React, {useState, useEffect, useContext} from 'react';
 import ReactMapGL, {Marker, Popup} from 'react-map-gl';
+import {Link} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
-import {MdPlace} from 'react-icons/md'
+import {MdPlace} from 'react-icons/md';
 import Typography from '@material-ui/core/Typography';
+import Context from 'store/context';
+import client from 'apolloClient';
+import SelectedCity from 'components/SelectedCity';
+import {QUERY_PLACES_MAP} from 'graphqlTypes/queries';
 
-const Map = ({location, name, address}) => {
+const Map = () => {
     const classes = useStyles();
+    const {state} = useContext(Context);
+    const [places, setPlaces] = useState([]);
     const [viewport, setViewport] = useState(null);
     useEffect(() => {
-        setViewport({
-            latitude: location.lat,
-            longitude: location.long,
-            zoom: 14
-        })
-    }, [])
-    
+        if (state.selectedCity) {
+            setViewport({
+                latitude: state.selectedCity.location.lat,
+                longitude: state.selectedCity.location.long,
+                zoom: 11,
+            });
+            getPlaces();
+        }
+    }, [state.selectedCity]);
+
+    const getPlaces = async () => {
+        const variables = {city: state.selectedCity._id};
+        const {data, errors} = await client.query({
+            errorPolicy: 'all',
+            query: QUERY_PLACES_MAP,
+            variables,
+        });
+        if (data.getPlaces) {
+            setPlaces(data.getPlaces)
+        }
+    };
+
     if (!viewport) return null;
     return (
         <div className={classes.root}>
+            <SelectedCity />
             <ReactMapGL
                 width="100vw"
                 height="100vh"
@@ -26,25 +49,31 @@ const Map = ({location, name, address}) => {
                 onViewportChange={newViewport => setViewport(newViewport)}
                 {...viewport}
             >
-                 <Marker
-                    latitude={location.lat}
-                    longitude={location.long}
-                    offsetLeft={-23}
-                    offsetTop={-40}
-                >
-                    <Typography variant="h3" color="error"><MdPlace/></Typography>
-                </Marker>
-                <Popup
-                    anchor="bottom"
-                    latitude={location.lat}
-                    longitude={location.long}
-                    closeOnClick={true}
-                    closeButton={false}
-                    offsetTop={-40}
-                >
-                        <Typography>{name}</Typography>
-                        <Typography>{address}</Typography>
-                </Popup>
+                {!!places.length &&
+                    places.map(item => {
+                        return (
+                            <>
+                                <Marker latitude={item.location.lat} longitude={item.location.long} offsetLeft={-18} offsetTop={-40}>
+                                    <Typography variant="h4" color="error">
+                                        <MdPlace />
+                                    </Typography>
+                                </Marker>
+                                {viewport.zoom > 14 && <Popup
+                                    anchor="bottom"
+                                    latitude={item.location.lat}
+                                    longitude={item.location.long}
+                                    closeOnClick={true}
+                                    closeButton={false}
+                                    offsetTop={-40}
+                                >
+                                        <Link className={classes.link} to={`/place/${item._id}`}>
+                                                    <Typography variant="body2">{item.name}</Typography>
+                                                    <Typography variant="body2">{item.address}</Typography>
+                                        </Link>
+                                </Popup>}
+                            </>
+                        );
+                    })}
             </ReactMapGL>
         </div>
     );
@@ -52,8 +81,11 @@ const Map = ({location, name, address}) => {
 
 const useStyles = makeStyles(theme => ({
     root: {
-        margin: '-16px'
     },
+    link: {
+        color: theme.palette.text.primary,
+        textDecoration: 'none',
+    }
 }));
 
 export default Map;
