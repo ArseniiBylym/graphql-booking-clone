@@ -132,12 +132,15 @@ module.exports = {
         if (!ctx.currentUser) {
             throw new AuthenticationError('User is not authenticated');
         }
-        const {placeId, grade, text} = args;
+        const {placeId, grade, text} = args.input;
+        console.log(args.input)
         const review = await new Review({
-            ...args,
+            ...args.input,
             owner: ctx.currentUser._id,
-            date: Date.now(),
+            date: String(Date.now()),
         }).save();
+        await Review.populate(review, {path: 'owner'})
+        console.log('Review is: ', review)
         await Place.findByIdAndUpdate(placeId, {$push: {reviews: review._id}});
         return review;
     },

@@ -19,6 +19,8 @@ const MainMenuButton = props => {
         setOpen(false);
         if (state.selectedCity) {
             props.history.push(path)
+        } else {
+            props.history.push('/')
         }
     }
 

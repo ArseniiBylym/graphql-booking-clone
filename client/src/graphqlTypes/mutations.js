@@ -27,3 +27,15 @@ export const MUTATION_REGISTER = gql`
         }
     }
 `;
+
+export const MUTATION_ADD_REVIEW = gql`
+    mutation($placeId: ID!, $rating: Int, $text: String!) {
+        createReview(input: {placeId: $placeId, rating: $rating, text: $text}) {
+            _id
+            owner{_id name picture}
+            rating
+            text
+            date
+        }
+    }
+`;

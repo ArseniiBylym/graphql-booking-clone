@@ -51,7 +51,7 @@ module.exports = gql`
         place: Place
         rating: Int
         text: String
-        date: Int
+        date: String
     }
 
     type City {
@@ -112,12 +112,13 @@ module.exports = gql`
     input ReviewInput {
         reviewId: ID
         placeId: ID!
-        grade: Int
+        rating: Int
         text: String!
     }
 
     type Query {
         me: User
+        getUser(id: ID!): User
         getPlace(id: ID!): Place
         getPlaces(city: ID!, page: Int, limit: Int, sort: String, order: Int): [Place]
         getUserReserves(page: Int, limit: Int, sort: String, order: Int): [Reserve]

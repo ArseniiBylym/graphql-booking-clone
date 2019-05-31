@@ -1,20 +1,90 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Redirect} from 'react-router';
 import Context from 'store/context';
+import { makeStyles } from '@material-ui/core/styles';
 import SelectedCity from 'components/SelectedCity';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Spinner from 'components/Spinner';
 
-const Places = () => {
+import PlaceCard from 'components/Place/PlaceCard';
+import Pagination from 'components/Pagination';
+import client from 'apolloClient'
+import {QUERY_PLACES} from 'graphqlTypes/queries'
+
+const Places = (props) => {
+    const classes = useStyles();
     const {state, dispatch} = useContext(Context);
+    const [fetching, setFetching] = useState(true)
+    const [places, setPlaces] = useState([]);
+    useEffect(() => {
+        console.log('fetching')
+        if (state.selectedCity) {
+            getPlaces()
+        }
+    },[state.selectedCity])
+
+    const getPlaces = async() => {
+        console.log(state.selectedCity)
+        const variables = {city: state.selectedCity._id}
+        const {data, errors} = await client.query({
+            errorPolicy: 'all',
+            query: QUERY_PLACES,
+            variables,
+        })
+        if (data.getPlaces) {
+            setPlaces(data.getPlaces);
+        }
+        setFetching(false)
+    }
 
     if (!state.selectedCity) {
-        return <Redirect to='/'/>
+        console.log('redirect')
+        props.history.push('/')
+        // return <Redirect to='/'/>
+    }
+    if (fetching) {
+        return <Spinner />
+    }
+    if (!places.length) {
+        return (
+            <Grid className={classes.root} container direction="column" >
+                <SelectedCity/>
+                <Typography align="center" variant="h5" component="h1" className={classes.emptyTitle}>No places found for selected city</Typography>
+            </Grid>
+        )
     }
     return (
-        <div>
+        <Grid className={classes.root} container direction="column" >
             <SelectedCity/>
-            Places
-        </div>
+            <Grid className={classes.places} container direction="column" spacing={2}>
+                {places.map(item => (
+                    <PlaceCard key={item._id} {...item} />
+                ))}
+                <div className={classes.pagination}>
+                    <Pagination/>
+                </div>
+            </Grid>
+        </Grid>
     )
 }
+
+const useStyles = makeStyles(theme => ({
+    root: { 
+        width: '100%',
+        height: '100%',
+    },
+    places: {
+        flexGrow: 1,
+        padding: theme.spacing(2)
+    },
+    pagination: {
+        marginTop: 'auto'
+    },
+    emptyTitle: {
+        marginTop: theme.spacing(5),
+    }
+}));
 
 export default Places;

@@ -22,7 +22,7 @@ const Map = ({location, name, address}) => {
                 width="100vw"
                 height="100vh"
                 mapStyle="mapbox://styles/mapbox/streets-v9"
-                mapboxApiAccessToken={process.env.REACT_APP_MAPGL_TOKEN}
+                mapboxApiAccessToken="pk.eyJ1IjoicmVlZGJhcmdlcmNvZGVzIiwiYSI6ImNqczVodXgzczAwM3E0M3MydzI0OHN0ZzEifQ.0qj4u8RW-Rj6An3WFLXKqA"
                 onViewportChange={newViewport => setViewport(newViewport)}
                 {...viewport}
             >

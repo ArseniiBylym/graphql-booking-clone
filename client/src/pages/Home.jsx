@@ -24,7 +24,7 @@ const Home = props => {
         if (state.selectedCity) {
             setCity(state.selectedCity._id)
         }
-    }, [])
+    }, [state.selectedCity])
 
     const getCities = async () => {
         const {data, errors} = await client.query({
@@ -44,6 +44,7 @@ const Home = props => {
         const selectedCity = cities.find(item => item._id === city);
         if (selectedCity) {
             dispatch({type: SET_CURRENT_CITY, payload: selectedCity});
+            localStorage.setItem('city', JSON.stringify(selectedCity))
             props.history.push('/places')
         }
     };

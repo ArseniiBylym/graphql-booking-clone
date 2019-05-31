@@ -27,7 +27,11 @@ const UserMenuButton = props => {
     const menuItemClickHandler = path => e => {
         setOpen(false);
         if (path === '/logout') {
+            localStorage.removeItem('token');
             dispatch({type: LOGOUT})
+        } else if (path === '/profile') {
+            console.log(state.user)
+            props.history.push(`${path}/${state.user._id}`)
         } else {
             props.history.push(path)
         }

@@ -8,6 +8,7 @@ import Login from 'pages/Login';
 import Register from 'pages/Register';
 import Home from 'pages/Home';
 import Places from 'pages/Places';
+import Place from 'pages/Place';
 import Map from 'pages/Map';
 import Profile from 'pages/Profile';
 import Reserves from 'pages/Reserves';
@@ -15,7 +16,7 @@ import Logout from 'pages/Logout';
 import Header from 'components/Header/index';
 import SelectedCity from 'components/SelectedCity';
 import {QUERY_ME} from 'graphqlTypes/queries';
-import {LOGIN} from 'store/actionTypes';
+import {LOGIN, SET_CURRENT_CITY} from 'store/actionTypes';
 
 const MainRoute = () => {
     const classes = useStyles();
@@ -23,6 +24,16 @@ const MainRoute = () => {
     useEffect(() => {
         getUser();
     }, []);
+    useEffect(() => {
+        setSelectedCity()
+    }, [])
+
+    const setSelectedCity = () => {
+        const city = localStorage.getItem('city');
+        if (city) {
+            dispatch({type: SET_CURRENT_CITY, payload: JSON.parse(city)})
+        }
+    }
 
     const getUser = async () => {
         const {data, errors} = await client.query({
@@ -32,7 +43,6 @@ const MainRoute = () => {
                 headers: {authorization: localStorage.getItem('token')}
             }
         });
-        console.log(errors)
         if (data.me) {
             dispatch({type: LOGIN, payload: data.me});
         }
@@ -47,8 +57,9 @@ const MainRoute = () => {
                     <Route path="/login" component={Login} />
                     <Route path="/register" component={Register} />
                     <Route path="/places" component={Places} />
+                    <Route path="/place/:id" component={Place} />
                     <Route path="/map" component={Map} />
-                    <Route path="/profile" component={Profile} />
+                    <Route path="/profile/:id" component={Profile} />
                     <Route path="/reserves" component={Reserves} />
                     <Route path="/logout" component={Logout} />
                     <Route path="/" component={Home} />
@@ -61,16 +72,17 @@ const MainRoute = () => {
 const useStyles = makeStyles({
     root: {
         width: '100vw',
-        height: '100vh',
+        minHeight: '100vh',
         overflow: 'hidden'
     },
     header: {
-        height: '56px'
+        height: '56px',
+        position: 'relative'
     },
     content: {
         height: 'calc(100vh - 56px)',
         // backgroundColor: 'pink',
-        overflow: 'hidden',
+        overflow: 'auto',
     }
 })
 

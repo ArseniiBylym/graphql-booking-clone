@@ -1,4 +1,4 @@
-const {AuthenticationError} = require('apollo-server-express');
+const {AuthenticationError, ForbiddenError} = require('apollo-server-express');
 const User = require('../../models/User.model');
 const Place = require('../../models/Place.model');
 const Reserve = require('../../models/Reserve.model');
@@ -14,12 +14,29 @@ module.exports = {
         console.log(user)
         return user
     },
+    getUser: async (parent, {id}, ctx) => {
+        console.log('id', id)
+        const user = await User.findById(id)
+            .populate('places')
+            .populate('reviews')
+            .exec();
+        if (!user) {
+            throw new ForbiddenError('User not found');
+        }
+        if (!ctx.currentUser || ctx.currentUser._id !== id){
+            delete user.reserves;
+            delete user.googleId;
+        }
+        return user;
+    },
     getPlace: async (parent, {id}, ctx) => {
         const place = await Place.findById(id)
             .populate('city')
             .populate('owner')
-            .populate('reviews')
-            .populate('reviews.owner')
+            .populate({
+                path: 'reviews',
+                populate: {path: 'owner'}
+            })
             .exec();
         if (!place) {
             throw new ForbiddenError('Place with the id is absent');

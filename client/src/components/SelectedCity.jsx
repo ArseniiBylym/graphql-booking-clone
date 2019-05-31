@@ -25,7 +25,9 @@ const SelectedCity = props => {
 const useStyles = makeStyles(theme => ({
     link: {
         textDecoration: 'none',
-        color: 'inherit'
+        color: 'inherit',
+        alignSelf: 'center',
+        marginTop: theme.spacing(1)
     },
 }));
 
