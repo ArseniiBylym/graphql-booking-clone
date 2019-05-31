@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Context from 'store/context';
 import client from 'apolloClient';
-import Spinner from 'components/Spinner';
+import {Spinner} from 'components/common';
 import {QUERY_PLACE} from 'graphqlTypes/queries';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';

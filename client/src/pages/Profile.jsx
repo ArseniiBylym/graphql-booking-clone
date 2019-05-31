@@ -5,11 +5,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import {MdAccountCircle, MdHome, MdComment, MdAssignment} from 'react-icons/md';
+import {MdInfoOutline, MdHome, MdComment, MdAssignment} from 'react-icons/md';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import Spinner from 'components/Spinner';
+import {Spinner} from 'components/common';
 import DefaultAvatar from 'images/defaultUser.jpg';
+import {MainInfo, Places} from 'components/Profile';
 
 import {QUERY_USER} from 'graphqlTypes/queries';
 import client from 'apolloClient';
@@ -19,7 +20,7 @@ const Profile = props => {
     const {state} = useContext(Context);
     const [fetching, setFetching] = useState(true);
     const [user, setUser] = useState(null)
-    const [bottomNav, setBottomNav] = useState(0)
+    const [bottomNav, setBottomNav] = useState('info')
     useEffect(()=> {
         getUserProfile()
     }, [])
@@ -33,34 +34,28 @@ const Profile = props => {
         })
         if (data.getUser) {
             setUser(data.getUser);
+            console.log(data.getUser.places)
         }
         setFetching(false);
     }
 
-    if (fetching) {
-        return <Spinner/>
-    }
+    if (fetching) return <Spinner/>
     if (!user) return null
     return (
         <Grid className={classes.root} container direction="column" alignItems="center">
-            <Avatar src={user.picture || DefaultAvatar} classes={{
-                root: classes.avatar
-            }}/>
-            <Typography variant="h6" align="center" gutterBottom>{user.name}</Typography>
-            <Typography variant="h6" align="center" gutterBottom>{user.email}</Typography>
-            {user.phone && 
-                <Typography variant="p" align="center" gutterBottom>{user.phone}</Typography>
-            }
+            {bottomNav === 'info' && <MainInfo name={user.name} email={user.email} picture={user.picture} phone={user.phone}/>}
+            {bottomNav === 'places' && <Places places={user.places}/>}
             <BottomNavigation 
                 value={bottomNav}
                 onChange={(event, value) => setBottomNav(value)}
                 showLabels
                 className={classes.bottomNav}
             >
-                <BottomNavigationAction classes={{root: classes.navButton, selected: classes.navButtonSelected}} label="Places" icon={<MdHome />} />
-                <BottomNavigationAction classes={{root: classes.navButton, selected: classes.navButtonSelected}} label="Reviews" icon={<MdComment />} />
+                <BottomNavigationAction classes={{root: classes.navButton, selected: classes.navButtonSelected}} value="info" label="Info" icon={<MdInfoOutline />} />
+                <BottomNavigationAction classes={{root: classes.navButton, selected: classes.navButtonSelected}} value="places" label="Places" icon={<MdHome />} />
+                <BottomNavigationAction classes={{root: classes.navButton, selected: classes.navButtonSelected}} value="reviews" label="Reviews" icon={<MdComment />} />
                 {state.user && state.user._id === user._id && 
-                    <BottomNavigationAction classes={{root: classes.navButton, selected: classes.navButtonSelected}} label="Reserves" icon={<MdAssignment />} />
+                    <BottomNavigationAction classes={{root: classes.navButton, selected: classes.navButtonSelected}} value="reserves" label="Reserves" icon={<MdAssignment />} />
                 } 
             </BottomNavigation>
         </Grid>

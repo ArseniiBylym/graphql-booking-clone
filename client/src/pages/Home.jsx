@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import client from 'apolloClient';
-import SelectedCity from 'components/SelectedCity';
+import {SelectedCity} from 'components/common';
 
 const Home = props => {
     const classes = useStyles();

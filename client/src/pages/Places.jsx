@@ -2,14 +2,14 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Redirect} from 'react-router';
 import Context from 'store/context';
 import { makeStyles } from '@material-ui/core/styles';
-import SelectedCity from 'components/SelectedCity';
+import SelectedCity from 'components/common/SelectedCity';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Spinner from 'components/Spinner';
+import {Spinner} from 'components/common';
 
 import PlaceCard from 'components/Place/PlaceCard';
-import Pagination from 'components/Pagination';
+import Pagination from 'components/common/Pagination';
 import client from 'apolloClient'
 import {QUERY_PLACES} from 'graphqlTypes/queries'
 

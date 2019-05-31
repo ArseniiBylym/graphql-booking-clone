@@ -33,6 +33,14 @@ export const QUERY_USER =  gql`
                 text
                 date
             }
+            reserves {
+                _id
+                place {_id name address}
+                startDate
+                endDate
+                totalPrice
+                status
+            }
         }
     }
 `;

@@ -14,7 +14,6 @@ import Profile from 'pages/Profile';
 import Reserves from 'pages/Reserves';
 import Logout from 'pages/Logout';
 import Header from 'components/Header/index';
-import SelectedCity from 'components/SelectedCity';
 import {QUERY_ME} from 'graphqlTypes/queries';
 import {LOGIN, SET_CURRENT_CITY} from 'store/actionTypes';
 

@@ -6,7 +6,7 @@ import {MdPlace} from 'react-icons/md';
 import Typography from '@material-ui/core/Typography';
 import Context from 'store/context';
 import client from 'apolloClient';
-import SelectedCity from 'components/SelectedCity';
+import {SelectedCity} from 'components/common';
 import {QUERY_PLACES_MAP} from 'graphqlTypes/queries';
 
 const Map = () => {
