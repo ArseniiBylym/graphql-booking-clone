@@ -58,6 +58,7 @@ module.exports = {
             ...input,
             owner: ctx.currentUser._id,
         }).save();
+        await User.findByIdAndUpdate(ctx.currentUser._id, {$push: {places: place._id}})
         await Place.populate(place, {path: 'owner'});
         await Place.populate(place, {path: 'city'});
         return place;
@@ -142,6 +143,7 @@ module.exports = {
         await Review.populate(review, {path: 'owner'})
         console.log('Review is: ', review)
         await Place.findByIdAndUpdate(placeId, {$push: {reviews: review._id}});
+        await User.findByIdAndUpdate(ctx.currentUser._id, {$push: {reviews: review._id}})
         return review;
     },
     updateReview: async(parent, args, ctx) => {

@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import StarRating from 'react-star-rating-component';
 import { makeStyles } from '@material-ui/core/styles';
-import Modal from 'components/Modals/index';
+import {ReserveModal} from 'components/Modals';
 
 const MainInfo = ({name, address, rating, mainImage, price}) => {
     const classes = useStyles();
@@ -34,7 +34,7 @@ const MainInfo = ({name, address, rating, mainImage, price}) => {
                             <Typography align="center" gutterBottom variant="body1">{`$ ${price.toFixed(2)}`}</Typography>
                         </div>
                     </Grid>
-                    <Modal.Reserve />
+                    <ReserveModal />
         </>
     )
 }

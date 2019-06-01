@@ -19,6 +19,7 @@ module.exports = {
         const user = await User.findById(id)
             .populate('places')
             .populate('reviews')
+            .populate('reserves')
             .exec();
         if (!user) {
             throw new ForbiddenError('User not found');
@@ -27,6 +28,7 @@ module.exports = {
             delete user.reserves;
             delete user.googleId;
         }
+        console.log('user is, ', user)
         return user;
     },
     getPlace: async (parent, {id}, ctx) => {

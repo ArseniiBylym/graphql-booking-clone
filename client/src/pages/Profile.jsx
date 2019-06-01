@@ -10,7 +10,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import {Spinner} from 'components/common';
 import DefaultAvatar from 'images/defaultUser.jpg';
-import {MainInfo, Places} from 'components/Profile';
+import {MainInfo, Places, Reviews} from 'components/Profile';
 
 import {QUERY_USER} from 'graphqlTypes/queries';
 import client from 'apolloClient';
@@ -34,7 +34,7 @@ const Profile = props => {
         })
         if (data.getUser) {
             setUser(data.getUser);
-            console.log(data.getUser.places)
+            console.log(data.getUser.reviews)
         }
         setFetching(false);
     }
@@ -45,6 +45,7 @@ const Profile = props => {
         <Grid className={classes.root} container direction="column" alignItems="center">
             {bottomNav === 'info' && <MainInfo name={user.name} email={user.email} picture={user.picture} phone={user.phone}/>}
             {bottomNav === 'places' && <Places places={user.places}/>}
+            {bottomNav === 'reviews' && <Reviews reviews={user.reviews}/>}
             <BottomNavigation 
                 value={bottomNav}
                 onChange={(event, value) => setBottomNav(value)}

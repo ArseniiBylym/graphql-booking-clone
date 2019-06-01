@@ -18,12 +18,12 @@ const ReserveModal = props => {
             <Dialog
                 open={modal}
                 onClose={() => setModal(false)}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
+                aria-labelledby="reserve-modal-title"
+                aria-describedby="reserve-modal-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+                <DialogTitle id="reserve-modal-title">{"Use Google's location service?"}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                    <DialogContentText id="reserve-modal-description">
                         Let Google help apps determine location. This means sending anonymous location data to Google,
                         even when no apps are running.
                     </DialogContentText>

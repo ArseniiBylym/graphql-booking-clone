@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {Spinner} from 'components/common';
+import {PlaceModal} from 'components/Modals'
 
 import PlaceCard from 'components/Place/PlaceCard';
 import Pagination from 'components/common/Pagination';
@@ -65,6 +66,7 @@ const Places = (props) => {
                     <Pagination/>
                 </div>
             </Grid>
+            {state.isAuth && <PlaceModal />}
         </Grid>
     )
 }
@@ -73,6 +75,7 @@ const useStyles = makeStyles(theme => ({
     root: { 
         width: '100%',
         height: '100%',
+        position: 'relative'
     },
     places: {
         flexGrow: 1,

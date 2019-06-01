@@ -1,7 +1,2 @@
-import Reserve from './ReserveModal'
-
-const Modal = {
-    Reserve,
-};
-
-export default Modal;
+export {default as ReserveModal} from './ReserveModal'
+export {default as PlaceModal} from './PlaceModal'

@@ -13,6 +13,7 @@ import Map from 'pages/Map';
 import Profile from 'pages/Profile';
 import Reserves from 'pages/Reserves';
 import Logout from 'pages/Logout';
+import NewPlace from 'pages/NewPlace';
 import Header from 'components/Header/index';
 import {QUERY_ME} from 'graphqlTypes/queries';
 import {LOGIN, SET_CURRENT_CITY} from 'store/actionTypes';
@@ -57,6 +58,7 @@ const MainRoute = () => {
                     <Route path="/register" component={Register} />
                     <Route path="/places" component={Places} />
                     <Route path="/place/:id" component={Place} />
+                    <Route path="/new-place" component={NewPlace} />
                     <Route path="/map" component={Map} />
                     <Route path="/profile/:id" component={Profile} />
                     <Route path="/reserves" component={Reserves} />
