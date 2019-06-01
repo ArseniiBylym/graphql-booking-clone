@@ -4,8 +4,6 @@ import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/styles';
 import {MdAdd} from 'react-icons/md'
@@ -42,7 +40,7 @@ const PlaceModal = props => {
 
 const useStyles = makeStyles(theme => ({
     button: {
-        position: 'absolute',
+        position: 'fixed',
         bottom: theme.spacing(2),
         right: theme.spacing(2),
         fontSize: '18px',

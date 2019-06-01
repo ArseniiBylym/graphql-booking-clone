@@ -56,9 +56,9 @@ const Places = (props) => {
         )
     }
     return (
-        <Grid className={classes.root} container direction="column" >
+        <Grid className={classes.root} container direction="column" wrap="nowrap">
             <SelectedCity/>
-            <Grid className={classes.places} container direction="column" spacing={2}>
+            <Grid className={classes.places} container direction="column" spacing={2} >
                 {places.map(item => (
                     <PlaceCard key={item._id} {...item} />
                 ))}
@@ -79,7 +79,7 @@ const useStyles = makeStyles(theme => ({
     },
     places: {
         flexGrow: 1,
-        padding: theme.spacing(2)
+        padding: theme.spacing(2),
     },
     pagination: {
         marginTop: 'auto'

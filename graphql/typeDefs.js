@@ -75,7 +75,8 @@ module.exports = gql`
     
     input CreatePlaceInput {
         name: String
-        location: LocationInput
+        lat: Float
+        long: Float
         city: ID
         address: String
         details: String
@@ -88,7 +89,8 @@ module.exports = gql`
     input UpdatePlaceInput {
         _id: ID!
         name: String
-        location: LocationInput
+        lat: Float
+        long: Float
         city: ID
         address: String
         details: String

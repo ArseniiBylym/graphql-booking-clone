@@ -39,3 +39,22 @@ export const MUTATION_ADD_REVIEW = gql`
         }
     }
 `;
+
+export const MUTATION_CREATE_PLACE = gql`
+    mutation($name: String, $lat: Float, $long: Float $city: ID, $address: String, $details: String, $roomsNumber: Int, $mainImage: String, $secondaryImages: [String], $price: Float) {
+        createPlace(input: {
+            name: $name
+            lat: $lat
+            long: $long
+            city: $city
+            address: $address 
+            details: $details 
+            roomsNumber: $roomsNumber 
+            mainImage: $mainImage 
+            secondaryImages: $secondaryImages
+            price: $price 
+        }) {
+            _id
+        }
+    }
+`;

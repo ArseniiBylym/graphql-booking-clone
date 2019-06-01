@@ -53,10 +53,13 @@ module.exports = {
                 errorList: validationErrors,
             });
         }
-        console.log;
         const place = await new Place({
             ...input,
             owner: ctx.currentUser._id,
+            location: {
+                lat: input.lat,
+                long: input.long
+            }
         }).save();
         await User.findByIdAndUpdate(ctx.currentUser._id, {$push: {places: place._id}})
         await Place.populate(place, {path: 'owner'});

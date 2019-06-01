@@ -37,8 +37,10 @@ const PlaceCard = props => {
     );
 };
 
-const useStyles = makeStyles({
-    card: {},
+const useStyles = makeStyles(theme => ({
+    card: {
+        marginBottom: theme.spacing(3),
+    },
     media: {
         width: '100%',
         height: '150px',
@@ -51,6 +53,6 @@ const useStyles = makeStyles({
         color: 'inherit'
     }
 
-});
+}));
 
 export default PlaceCard;

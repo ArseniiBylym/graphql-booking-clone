@@ -77,7 +77,7 @@ module.exports = {
                 inputField: `address`,
             });
         }
-        if (isEmpty(city)) {
+        if (isEmpty(String(city))) {
             validationErrors.push({
                 message: `City is required`,
                 inputField: `city`,
