@@ -5,7 +5,7 @@ import StarRating from 'react-star-rating-component';
 import { makeStyles } from '@material-ui/core/styles';
 import {ReserveModal} from 'components/Modals';
 
-const MainInfo = ({name, address, rating, mainImage, price}) => {
+const MainInfo = ({_id, name, address, rating, mainImage, price}) => {
     const classes = useStyles();
     return (
         <>
@@ -34,7 +34,7 @@ const MainInfo = ({name, address, rating, mainImage, price}) => {
                             <Typography align="center" gutterBottom variant="body1">{`$ ${price.toFixed(2)}`}</Typography>
                         </div>
                     </Grid>
-                    <ReserveModal />
+                    <ReserveModal placeId={_id} />
         </>
     )
 }

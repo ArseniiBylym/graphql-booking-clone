@@ -58,3 +58,15 @@ export const MUTATION_CREATE_PLACE = gql`
         }
     }
 `;
+
+export const MUTATION_CREATE_RESERVE = gql`
+    mutation($placeId: ID!, $startDate: String!, $endDate: String!) {
+        createReserve(input: {
+            placeId: $placeId, 
+            startDate: $startDate, 
+            endDate: $endDate 
+        }) {
+            _id
+        }
+    }
+`

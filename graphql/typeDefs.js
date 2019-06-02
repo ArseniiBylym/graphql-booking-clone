@@ -107,8 +107,8 @@ module.exports = gql`
 
     input CreateReserveInput {
         placeId: ID!
-        startDate: Int!
-        endDate: Int!
+        startDate: String!
+        endDate: String!
     }
 
     input ReviewInput {
@@ -126,6 +126,7 @@ module.exports = gql`
         getUserReserves(page: Int, limit: Int, sort: String, order: Int): [Reserve]
         getPlaceReserves(placeId: ID!, page: Int, limit: Int, sort: String, order: Int): [Reserve]
         getCities: [City]
+        checkDates(placeId: ID, startDate: String, endDate: String): String
     }
 
     type Mutation {

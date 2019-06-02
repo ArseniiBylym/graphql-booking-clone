@@ -10,12 +10,9 @@ module.exports = {
             throw new AuthenticationError('Permission denied');
         }
         const user = await User.findById(ctx.currentUser._id).exec();
-        console.log(ctx.currentUser)
-        console.log(user)
         return user
     },
     getUser: async (parent, {id}, ctx) => {
-        console.log('id', id)
         const user = await User.findById(id)
             .populate('places')
             .populate('reviews')
@@ -28,7 +25,6 @@ module.exports = {
             delete user.reserves;
             delete user.googleId;
         }
-        console.log('user is, ', user)
         return user;
     },
     getPlace: async (parent, {id}, ctx) => {
@@ -53,6 +49,7 @@ module.exports = {
             .populate('reviews')
             .populate('reviews.owner')
             .exec();
+        console.log('Places list', places);
         return places;
     },
     getUserReserves: async(parent, args, ctx) => {
@@ -84,5 +81,19 @@ module.exports = {
     getCities: async() => {
         const cities = await City.find().exec();
         return cities;
-    }
+    },
+    checkDates: async(parent, args, ctx) => {
+        const {placeId, startDate, endDate} = args;
+        const reserves = await Reserve.find({place: placeId}).exec();
+        const existedReserve = reserves.find(item => {
+            if (Number(item.startDate) <= Number(startDate) && Number(item.endDate) >= Number(startDate)) {
+                return true;
+            }
+            if (Number(item.startDate) <= Number(endDate) && Number(item.endDate) >= Number(endDate)) {
+                return true;
+            }
+            return false;
+        })
+        return existedReserve ? 'reserved' : 'available';
+    } 
 }

@@ -107,3 +107,9 @@ export const QUERY_PLACE = gql`
         }
     }
 `;
+
+export const QUERY_CHECK_DATES = gql`
+    query($placeId: ID, $startDate: String, $endDate: String) {
+        checkDates(placeId: $placeId, startDate: $startDate, endDate: $endDate) 
+    }
+`

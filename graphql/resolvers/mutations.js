@@ -99,7 +99,7 @@ module.exports = {
         return id;
     },
     createReserve: async(parent, {input}, ctx) => {
-        const {placeId, statDate, endDate} = input;
+        const {placeId, startDate, endDate} = input;
         if (!ctx.currentUser) {
             throw new AuthenticationError('User is not authenticated');
         }
@@ -111,6 +111,7 @@ module.exports = {
         const totalPrice = (+place.price * totalDays).toFixed(2);
         const reserve = await new Reserve({
             ...input,
+            place: input.placeId,
             owner: ctx.currentUser._id,
             totalPrice,
         }).save();
@@ -137,14 +138,12 @@ module.exports = {
             throw new AuthenticationError('User is not authenticated');
         }
         const {placeId, grade, text} = args.input;
-        console.log(args.input)
         const review = await new Review({
             ...args.input,
             owner: ctx.currentUser._id,
             date: String(Date.now()),
         }).save();
         await Review.populate(review, {path: 'owner'})
-        console.log('Review is: ', review)
         await Place.findByIdAndUpdate(placeId, {$push: {reviews: review._id}});
         await User.findByIdAndUpdate(ctx.currentUser._id, {$push: {reviews: review._id}})
         return review;
