@@ -5,6 +5,8 @@ const Context = createContext({
     user: null,
     allCities: null,
     selectedCity: null,
+    showNotification: false,
+    notificationText: '',
 
 })
 

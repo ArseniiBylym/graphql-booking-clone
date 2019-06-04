@@ -115,6 +115,7 @@ module.exports = {
             owner: ctx.currentUser._id,
             totalPrice,
         }).save();
+        await User.findByIdAndUpdate(ctx.currentUser._id, {$push: {reserves: reserve._id}})
         await Place.findByIdAndUpdate(placeId, {$push: {reserves: reserve._id}});
         await Reserve.populate(reserve, 'place')
         await Reserve.populate(reserve, 'owner')

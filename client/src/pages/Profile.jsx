@@ -10,7 +10,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import {Spinner} from 'components/common';
 import DefaultAvatar from 'images/defaultUser.jpg';
-import {MainInfo, Places, Reviews} from 'components/Profile';
+import {MainInfo, Places, Reviews, Reserves} from 'components/Profile';
 
 import {QUERY_USER} from 'graphqlTypes/queries';
 import client from 'apolloClient';
@@ -34,7 +34,7 @@ const Profile = props => {
         })
         if (data.getUser) {
             setUser(data.getUser);
-            console.log(data.getUser.reviews)
+            console.log(data.getUser)
         }
         setFetching(false);
     }
@@ -42,10 +42,11 @@ const Profile = props => {
     if (fetching) return <Spinner/>
     if (!user) return null
     return (
-        <Grid className={classes.root} container direction="column" alignItems="center">
+        <Grid className={classes.root} container direction="column" > 
             {bottomNav === 'info' && <MainInfo name={user.name} email={user.email} picture={user.picture} phone={user.phone}/>}
             {bottomNav === 'places' && <Places places={user.places}/>}
             {bottomNav === 'reviews' && <Reviews reviews={user.reviews}/>}
+            {bottomNav === 'reserves' && <Reserves reserves={user.reserves}/>}
             <BottomNavigation 
                 value={bottomNav}
                 onChange={(event, value) => setBottomNav(value)}
@@ -66,7 +67,8 @@ const Profile = props => {
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
-        height: '100%',
+        height: 'calc(100vh - 56px)',
+        position: 'relative',
     },
     avatar: {
         width: '100px',
@@ -77,7 +79,11 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         backgroundColor: theme.palette.primary.main,
         padding: theme.spacing(1),
-        marginTop: 'auto'
+        // marginTop: 'auto'
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        rigth: 0,
     },
     navButton: {
         color: 'white',

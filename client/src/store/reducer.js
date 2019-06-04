@@ -4,6 +4,8 @@ import {
     LOGOUT,
     INIT_CITIES,
     SET_CURRENT_CITY,
+    SHOW_NOTIFICATION,
+    HIDE_NOTIFICATION,
 } from './actionTypes';
 
 const reducer = (state, {type, payload}) => {
@@ -35,6 +37,20 @@ const reducer = (state, {type, payload}) => {
                     _id,
                     location: {lat, long}
                 }
+            }
+        }
+        case SHOW_NOTIFICATION: {
+            return {
+                ...state,
+                showNotification: true,
+                notificationText: payload
+            }
+        }
+        case HIDE_NOTIFICATION: {
+            return {
+                ...state,
+                showNotification: false,
+                notificationText: ''
             }
         }
         default: 

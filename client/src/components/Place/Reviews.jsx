@@ -4,6 +4,7 @@ import Context from 'store/context';
 import { makeStyles } from '@material-ui/styles';
 import ReviewForm from './ReviewForm'
 import Review from './ReviewItem';
+import { Typography } from '@material-ui/core';
 
 const Reviews = ({reviews, placeId, pushReview}) => {
     const classes = useStyles();
@@ -11,6 +12,11 @@ const Reviews = ({reviews, placeId, pushReview}) => {
 
     return (
         <div className={classes.root}>
+            {!reviews.length&& (
+                <Typography align="center" variant="body1">
+                    The place has no reviews yet {state.isAuth && ', you can create the first one '}
+                </Typography>
+            )}
             {state.isAuth && <ReviewForm placeId={placeId} pushReview={pushReview}/>}
             {reviews.map(item => {
                 return (
@@ -23,7 +29,6 @@ const Reviews = ({reviews, placeId, pushReview}) => {
 
 const useStyles = makeStyles(theme => ({
     root: {
-        marginTop: 'auto'
     }
 }))
 export default Reviews;

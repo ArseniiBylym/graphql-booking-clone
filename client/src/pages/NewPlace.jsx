@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {MUTATION_CREATE_PLACE} from 'graphqlTypes/mutations';
 import {NewPlaceLocationModal} from 'components/Modals'
+import { SHOW_NOTIFICATION } from 'store/actionTypes';
 
 const defaultForm = {
     name: '',
@@ -62,6 +63,7 @@ const NewPlace = props => {
         })
         if (data.createPlace) {
             props.history.push(`/place/${data.createPlace._id}`)
+            dispatch({type: SHOW_NOTIFICATION, payload: 'New place successfully added'})
         }
     }
 

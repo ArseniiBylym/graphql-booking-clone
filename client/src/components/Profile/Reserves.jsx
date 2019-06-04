@@ -1,27 +1,29 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
-import PlaceCard from 'components/Place/PlaceCard'
+import {ReserveItem} from 'components/Reserve'
 import Typography from '@material-ui/core/Typography';
 
-const Places = ({places}) => {
+
+const Reserves = ({reserves}) => {
     const classes = useStyles();
-    if (!places.length) {
+
+    if (!reserves.length) {
         return <Typography align="center" className={classes.emptyHeader} variant="h5">
-            User has no created places
+            User has no reserves
         </Typography>
     }
     return (
-        <Grid container className={classes.places} direction="column" spacing={2}> 
-            {places.map(item => (
-                <PlaceCard key={item._id} {...item} />
+        <Grid container className={classes.reserves} direction="column" spacing={2}> 
+            {reserves.map(item => (
+                <ReserveItem key={item._id} {...item} />
             ))}
         </Grid>
     )
 }
 
 const useStyles = makeStyles(theme => ({
-    places: {
+    reserves: {
         flexGrow: 1,
         padding: theme.spacing(2),
         marginBottom: '50px',
@@ -31,5 +33,4 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export default Places
-
+export default Reserves;

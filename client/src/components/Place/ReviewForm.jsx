@@ -8,9 +8,11 @@ import StarRating from 'react-star-rating-component';
 import { Typography } from '@material-ui/core';
 import client from 'apolloClient';
 import {MUTATION_ADD_REVIEW} from 'graphqlTypes/mutations'
+import { SHOW_NOTIFICATION } from 'store/actionTypes';
 
 const ReviewForm = ({placeId, pushReview}) => {
     const classes = useStyles();
+    const {dispatch} = useContext(Context);
     const [text, setText] = useState('');
     const [rating, setRating] = useState('');
 
@@ -26,9 +28,8 @@ const ReviewForm = ({placeId, pushReview}) => {
         }) 
         if (data.createReview) {
             pushReview(data.createReview);
-            console.log(data.createReview)
+            dispatch({type: SHOW_NOTIFICATION, payload: 'New review was successfully added'})
         }
-        console.log(text);
         setText('');
         setRating('');
     }

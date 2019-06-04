@@ -16,7 +16,18 @@ module.exports = {
         const user = await User.findById(id)
             .populate('places')
             .populate('reviews')
-            .populate('reserves')
+            .populate({
+                path: 'reserves',
+                populate: {
+                    path: 'owner'
+                }
+            })
+            .populate({
+                path: 'reserves',
+                populate: {
+                    path: 'place'
+                }
+            })
             .exec();
         if (!user) {
             throw new ForbiddenError('User not found');

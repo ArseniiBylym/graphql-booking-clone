@@ -11,7 +11,6 @@ import {LOGOUT} from 'store/actionTypes'
 
 const authUserActions = [
     {icon: <MdPermIdentity />, name: 'Profile', path: '/profile'}, 
-    {icon: <MdEventNote />, name: 'Reserves', path: '/reserves'},
     {icon: <MdExitToApp />, name: 'Logout', path: '/logout'},
 ];
 const unAuthUserActions = [

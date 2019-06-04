@@ -52,6 +52,7 @@ const Places = (props) => {
             <Grid className={classes.root} container direction="column" >
                 <SelectedCity/>
                 <Typography align="center" variant="h5" component="h1" className={classes.emptyTitle}>No places found for selected city</Typography>
+                {state.isAuth && <PlaceModal />}
             </Grid>
         )
     }
@@ -80,6 +81,8 @@ const useStyles = makeStyles(theme => ({
     places: {
         flexGrow: 1,
         padding: theme.spacing(2),
+        width: '100%',
+        margin: 0
     },
     pagination: {
         marginTop: 'auto'

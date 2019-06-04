@@ -11,10 +11,10 @@ import Places from 'pages/Places';
 import Place from 'pages/Place';
 import Map from 'pages/Map';
 import Profile from 'pages/Profile';
-import Reserves from 'pages/Reserves';
 import Logout from 'pages/Logout';
 import NewPlace from 'pages/NewPlace';
 import Header from 'components/Header/index';
+import {Notification} from 'components/common'
 import {QUERY_ME} from 'graphqlTypes/queries';
 import {LOGIN, SET_CURRENT_CITY} from 'store/actionTypes';
 
@@ -61,11 +61,11 @@ const MainRoute = () => {
                     <Route path="/new-place" component={NewPlace} />
                     <Route path="/map" component={Map} />
                     <Route path="/profile/:id" component={Profile} />
-                    <Route path="/reserves" component={Reserves} />
                     <Route path="/logout" component={Logout} />
                     <Route path="/" component={Home} />
                 </Switch>
             </div>
+            <Notification />
         </div>
     );
 };

@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { MUTATION_LOGIN } from 'graphqlTypes/mutations';
 import client from 'apolloClient';
-import { LOGIN } from 'store/actionTypes';
+import { LOGIN, SHOW_NOTIFICATION } from 'store/actionTypes';
 
 const Login = () => {
     const classes = useStyles();
@@ -41,6 +41,7 @@ const Login = () => {
             const {user, token} = data.loginUser;
             localStorage.setItem('token', token)
             dispatch({type: LOGIN, payload: user})
+            dispatch({type: SHOW_NOTIFICATION, payload: `You are loged in as ${user.name}`})
         }
     }
 

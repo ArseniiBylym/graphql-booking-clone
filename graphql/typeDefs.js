@@ -39,8 +39,8 @@ module.exports = gql`
         _id: ID
         place: Place
         owner: User
-        startDate: Int
-        endDate: Int
+        startDate: String
+        endDate: String
         totalPrice: Float
         status: ReserveStatus
     }

@@ -22,8 +22,10 @@ export const QUERY_USER =  gql`
             places {
                 _id
                 name
-                city {name}
+                address
                 mainImage
+                price
+                rating
             }
             reviews {
                 _id
@@ -36,6 +38,7 @@ export const QUERY_USER =  gql`
             reserves {
                 _id
                 place {_id name address}
+                owner {_id name}
                 startDate
                 endDate
                 totalPrice

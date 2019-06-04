@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -13,9 +13,12 @@ import {MdCheck, MdClose} from 'react-icons/md';
 import {QUERY_CHECK_DATES} from 'graphqlTypes/queries';
 import {MUTATION_CREATE_RESERVE} from 'graphqlTypes/mutations'
 import client from 'apolloClient';
+import { SHOW_NOTIFICATION } from 'store/actionTypes';
+import Context from 'store/context'
 
 const ReserveModal = props => {
     const classes = useStyles();
+    const {store, dispatch} = useContext(Context);
     const [modal, setModal] = useState(false);
     const [startDate, setStartDate] = useState(moment().hour(12).minute(0).valueOf());
     const [endDate, setEndDate] = useState(null);
@@ -77,7 +80,7 @@ const ReserveModal = props => {
             }
         })
         if (data.createReserve) {
-            console.log('success')
+            dispatch({type: SHOW_NOTIFICATION, payload: 'The place was successfule reserved'})
         }
         setConfirming(false)
         setModal(false)
